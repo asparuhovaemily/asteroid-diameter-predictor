@@ -35,7 +35,7 @@ def index():
         predicted_diameter = random_forest.predict(input_data)
         predicted_diameter = round(predicted_diameter[0], 2)
         
-        return render_template('index.html', prediction=predicted_diameter)
+        return jsonify(predicted_diameter)
     else:
         return render_template('index.html', prediction=None)
 

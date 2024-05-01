@@ -1,44 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Asteroid Diameter Predictor</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Abel&display=swap">
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/asteroid_1.png') }}">
 </head>
-<body>
-    <div class="container">
-        <form action="/" method="post">
-            <div class="input-field">
-                <label for="absolute_magnitude">Absolute Magnitude</label>
-                <input type="text" name="absolute_magnitude" id="absolute_magnitude" required>
-            </div>
-            
-            <div class="input-field">
-                <label for="albedo">Albedo</label>
-                <input type="text" name="albedo" id="albedo" required>
-            </div>
-            
-            <div class="input-field">
-                <label for="n">N</label>
-                <input type="text" name="n" id="n" required>
-            </div>
-            
-            <div class="input-field">
-                <label for="rms">RMS</label>
-                <input type="text" name="rms" id="rms" required>
-            </div>
-            
-            <button class="btn waves-effect waves-light" type="submit" name="action">Predict Diameter</button>
-        </form>
 
-        {% if prediction %}
-        <p>Diameter: {{ prediction }} km</p>
-        {% endif %}
+<body>
+    <div class="jumbotron slide">
+        <h1>Asteroid Diameter Predictor</h1>
+        <p>Predict the diameter of an asteroid based on its absolute magnitude, albedo, N, and RMS values.</p>
+    </div>
+
+    <div class="slide" id="project-goals">
+        <div class="slide-content row">
+            <div class="col d-flex flex-column justify-content-center m-5">
+                <h2>PROJECT GOALS</h2>
+                <p>The project aims to enhance asteroid measurement using advanced machine learning techniques. By
+                    automating this process, it seeks to advance space exploration and scientific research, while also
+                    strengthening planetary defence against potential asteroid impacts. The objective is to provide
+                    precise data on asteroid size and composition to improve planning for future space missions and
+                    improve Earth's protection.</p>
+            </div>
+            <div class="col">
+                <img src="../static/images/hubble_telescope.jpeg" alt="Hubble Telescope" width="600" />
+            </div>
+        </div>
+    </div>
+
+    <div class="slide" id="ml-algorithm">
+        <div class="slide-content row">
+            <div class="col">
+                <img src="../static/images/asteroids.jpeg" alt="Asteroids" width="600" />
+            </div>
+            <div class="col d-flex flex-column justify-content-center m-5">
+                <h2>MACHINE LEARNING ALGORITHM</h2>
+                <p>The project employs a Random Forest Regressor for training on asteroid data. Key features considered
+                    during training include absolute magnitude (H), albedo, N, and RMS. With an impressive coefficient
+                    of determination value of 0.92, the model demonstrates strong predictive capability, providing
+                    accurate estimations for asteroid diameters. It is important to note that predictions for larger
+                    asteroids may have considerably reduced precision due to underrepresentation in the dataset.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container slide d-flex flex-column" id="predictor-form">
+        <h2>ASTEROID DIAMETER PREDICTIVE TOOL</h2>
+        <form class="prediction-form prediction-form-container" id="prediction-form" method="post">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="absolute_magnitude">Absolute Magnitude</label>
+                        <input type="text" class="form-control" name="absolute_magnitude" id="absolute_magnitude"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="albedo">Albedo</label>
+                        <input type="text" class="form-control" name="albedo" id="albedo" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="n">N</label>
+                        <input type="text" class="form-control" name="n" id="n" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="rms">RMS</label>
+                        <input type="text" class="form-control" name="rms" id="rms" required>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-predict" type="submit" name="action">Predict Diameter</button>
+
+            <div class="mt-3 prediction-result" role="alert">
+            </div>
+        </form>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#prediction-form').submit(function (event) {
+                event.preventDefault();
+                
+                var formData = $(this).serialize();
+                
+                $.ajax({
+                    type: 'POST',
+                    url: '/',
+                    data: formData,
+                    success: function (data) {
+                        $('.prediction-result').text('Diameter: ' + data + ' km');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
+
 </html>
