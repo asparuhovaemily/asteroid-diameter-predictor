@@ -2,26 +2,20 @@ from flask import Flask, render_template, request, jsonify
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_absolute_error
 import pandas as pd
+import joblib
 
 app = Flask(__name__)
 
-asteroids = pd.read_csv("asteroids_for_modelling.csv")
+random_forest = joblib.load('random_forest_model.pkl')
+scaler = joblib.load('scaler.pkl')
+X_test, y_test = joblib.load('test_set.pkl')
 
-features = ["absolute_magnitude", "albedo", "n", "rms"]
-target = "diameter"
+rf_predictions = random_forest.predict(X_test)
 
-X = asteroids[features]
-y = asteroids[target]
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-
-scaler = StandardScaler()
-scaler.fit(X_train)
-X_train = scaler.transform(X_train)
-
-random_forest = RandomForestRegressor(max_features='sqrt', n_jobs=-1)
-random_forest.fit(X_train, y_train)
+mae = mean_absolute_error(y_test, rf_predictions)
+mae = round(mae, 2)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -33,9 +27,18 @@ def index():
         
         input_data = scaler.transform([[absolute_magnitude, albedo, n, rms]])
         predicted_diameter = random_forest.predict(input_data)
+
         predicted_diameter = round(predicted_diameter[0], 2)
+
+        lower_bound = round(predicted_diameter - mae, 2)
+        upper_bound = round(predicted_diameter + mae, 2)
         
-        return jsonify(predicted_diameter)
+        return jsonify({
+            'predicted_diameter': predicted_diameter,
+            'mae': mae,
+            'lower_bound': lower_bound,
+            'upper_bound': upper_bound
+        })
     else:
         return render_template('index.html', prediction=None)
 
