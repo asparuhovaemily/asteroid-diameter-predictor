@@ -3,7 +3,7 @@
 
 ## Overview
 
-The objective of this project is to develop an asteroid diameter predictive tool using Machine Learning.
+The objective of this project is to develop an asteroid diameter predictive tool using machine learning.
 
 After thorough exploration and experimentation, the most effective machine learning model was effectively incorporated into a user-friendly web application.
 
