@@ -30,7 +30,7 @@ After thorough exploration and experimentation, the most effective machine le
 
 ### Libraries
 
-- `scikit-learn`
+- `sklearn`
 - `pandas`
 - `seaborn`
 - `numpy`
