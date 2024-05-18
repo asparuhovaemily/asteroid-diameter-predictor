@@ -1,5 +1,5 @@
 
-# Diameter Predictive Tool using Machine Learning
+# Asteroid Diameter Predictive Tool using Machine Learning
 
 ## Overview
 
