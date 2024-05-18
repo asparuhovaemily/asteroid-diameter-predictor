@@ -45,3 +45,8 @@ After thorough exploration and experimentation, the most effective machine le
 - `XGBRegressor`
 
 Previous versions of the project featured `NeighborsRegressor` and `LinearRegression` as well, but they proved unsatisfactory in performance, leading to their removal in subsequent iterations.
+
+## Demo
+
+![Demo GIF](https://github.com/asparuhovaemily/asteroid-diameter-predictor/raw/main/demo.gif)
+
