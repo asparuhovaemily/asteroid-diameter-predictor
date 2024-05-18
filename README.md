@@ -25,7 +25,7 @@ After thorough exploration and experimentation, the most effective machine le
 - `scaler.pkl`: Serialized scaler object used for feature scaling. It ensures consistency in feature scaling between training and prediction phases.
 
 - `test_set.pkl`: Pickle file containing the test set used for evaluating the performance of the trained machine learning model (`random_forest_model.pkl`). This test set is essential for calculating metrics such as Mean Absolute Error (MAE) to assess the model's predictive accuracy.
-- 
+
 ## Technologies
 
 ### Libraries
